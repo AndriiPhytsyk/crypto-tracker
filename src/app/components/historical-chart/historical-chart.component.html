@@ -1,0 +1,10 @@
+<div class="chart-container">
+  <canvas baseChart
+          *ngIf="chartData.length;else noData"
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [legend]="lineChartLegend"
+          [type]="pieChartType">
+  </canvas>
+  <ng-template #noData>Could not retrieve data for chart</ng-template>
+</div>

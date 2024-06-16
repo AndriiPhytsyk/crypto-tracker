@@ -1,0 +1,15 @@
+.form-control {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+
+  input[type="text"] {
+    width: 60%;
+    padding: 5px;
+  }
+
+  button {
+    width: 30%;
+    padding: 5px;
+  }
+}

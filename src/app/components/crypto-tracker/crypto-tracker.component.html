@@ -1,0 +1,7 @@
+<div class="form-control">
+  <input #input [value]="exchangeFilter" type="text" placeholder="BTC/USD">
+  <button (click)="subscribe(input.value)">Subscribe</button>
+</div>
+
+<app-market-data [exchangeFilter]="exchangeFilter"></app-market-data>
+<app-historical-chart [exchangeFilter]="exchangeFilter"></app-historical-chart>

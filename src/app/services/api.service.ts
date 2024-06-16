@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {catchError, Observable, of, Subject} from 'rxjs';
+import {catchError, map, Observable, of, Subject} from 'rxjs';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environment/environment";
 import {IWsMessageToGet, IWsMessageToSend} from "../models/wsMessage";
+import {IHistoricData} from "../models/historic-data";
 
 @Injectable()
 export class ApiService {
@@ -50,12 +51,15 @@ export class ApiService {
     }
   }
 
-  getHistoricalPrices(symbol: string): Observable<any[]> {
-    const url = `${this.baseUrl}quotes/${symbol}/history?period_id=1DAY&limit=20`;
-    return this.http.get<any[]>(url, {
+  getHistoricalPrices(symbol: string): Observable<IHistoricData[]> {
+    const url = `${this.baseUrl}exchangerate/${symbol}/history?period_id=1HRS&limit=20&sort=DESC`;
+    return this.http.get<IHistoricData[]>(url, {
       headers: {
         'X-CoinAPI-Key': this.apiKey
       }
-    }).pipe(catchError(() => of([])));
+    }).pipe(
+      map((data: IHistoricData[]) => data.sort((a, b) => new Date(a.time_period_start).getTime() - new Date(b.time_period_start).getTime())),
+      catchError(() => of([]))
+    );
   }
 }
